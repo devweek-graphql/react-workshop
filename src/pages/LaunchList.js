@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row, Table } from "react-bootstrap";
-import APP_CONFIG from "../config/app.config";
+import APP_CONFIG from "config/app.config";
 
 function LaunchList(){
   const [aLaunchList, setLaunchList] = useState([]);
