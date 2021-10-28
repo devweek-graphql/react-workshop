@@ -20,7 +20,6 @@ function RocketList(){
         if (oResponse.status === 200){
           let oData = await oResponse.text();
           setRocketList(JSON.parse(oData));
-          console.log(aRocketList);
         } else {
           console.log("Error de conexión al servidor")
         }

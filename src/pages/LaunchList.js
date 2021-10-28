@@ -20,7 +20,6 @@ function LaunchList(){
         if (oResponse.status === 200){
           let oData = await oResponse.text();
           setLaunchList(JSON.parse(oData));
-          console.log(aLaunchList);
         } else {
           console.log("Error de conexión al servidor")
         }

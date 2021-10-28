@@ -1,27 +1,33 @@
 import './App.css';
 import {Container, Navbar, Nav} from "react-bootstrap";
-import CompanyInfo from './pages/CompanyInfo';
-import RocketList from './pages/RocketList';
-import LaunchList from './pages/LaunchList';
+import { BrowserRouter as Router } from "react-router-dom";
+import { RouteConfig } from "router/Router";
+import { Link } from "react-router-dom";
 
 function App() {
   return (
     <>
-      <Navbar bg="dark" variant="dark">
-        <Container className={"py-3"}>
-          <Navbar.Brand href="#home">SpaceX</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
-          </Nav>
+      <Router>
+        <Navbar bg="dark" variant="dark">
+          <Container className={"py-3"}>
+            <Navbar.Brand href="/">SpaceX</Navbar.Brand>
+            <Nav className="me-auto">
+              <Link to={"/"} className="nav-link">
+                Home
+              </Link>
+              <Link to={"/rockets"} className="nav-link">
+                Rockets
+              </Link>
+              <Link to={"/launchs"} className="nav-link">
+                Launchs
+              </Link>
+            </Nav>
+          </Container>
+        </Navbar>
+        <Container fluid>
+          <RouteConfig />
         </Container>
-      </Navbar>
-      <Container fluid>
-        <CompanyInfo />
-        <RocketList />
-        <LaunchList />
-      </Container>
+      </Router>
     </>
   );
 }
