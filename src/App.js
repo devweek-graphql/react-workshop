@@ -1,6 +1,8 @@
 import './App.css';
-import {Container, Navbar, Nav, Row, Col, Table} from "react-bootstrap";
-import CompanyInfo from './components/CompanyInfo';
+import {Container, Navbar, Nav} from "react-bootstrap";
+import CompanyInfo from './pages/CompanyInfo';
+import RocketList from './pages/RocketList';
+import LaunchList from './pages/LaunchList';
 
 function App() {
   return (
@@ -17,39 +19,8 @@ function App() {
       </Navbar>
       <Container fluid>
         <CompanyInfo />
-        {/* <Row>
-          <Col>
-          <Table striped bordered hover variant="dark">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td colSpan="2">Larry the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-          </Table>
-          </Col>
-        </Row> */}
+        <RocketList />
+        <LaunchList />
       </Container>
     </>
   );

@@ -20,7 +20,7 @@ function CompanyInfo() {
           let oData = await oResponse.text();
           setCompanyInfo(JSON.parse(oData));
         } else {
-          console.log("Error de conexión al servidor")
+          console.log("Error de conexión al servidor");
         }
       }
       GetCompanyInfo();
