@@ -3,14 +3,17 @@ import { Container } from "react-bootstrap";
 import Header from "./components/Header";
 import { BrowserRouter as Router } from "react-router-dom";
 import { RouteConfig } from "router/Router";
+import SystemContextProvider from 'context/SystemContext';
 
 function App() {
   return (
     <Router>
-      <Header />
-      <Container fluid>
-        <RouteConfig />
-      </Container>
+      <SystemContextProvider>
+        <Header />
+        <Container fluid>
+          <RouteConfig />
+        </Container>
+      </SystemContextProvider>
     </Router>
   );
 }

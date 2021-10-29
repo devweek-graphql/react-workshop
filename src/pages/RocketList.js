@@ -1,35 +1,18 @@
-import React, {useState, useEffect} from "react";
+import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo, faRocket } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row, Table } from "react-bootstrap";
-import APP_CONFIG from "../config/app.config";
+import { SystemContext } from "context/SystemContext";
 
 function RocketList(){
-  const [aRocketList, setRocketList] = useState([]);
+  let history = useHistory();
+  const {aRocketList, setSelectedRocketId} = useContext(SystemContext);
 
-  useEffect(() => {
-    try {
-      const GetRocketList = async () => {
-        const oResponse = await fetch(`${APP_CONFIG.API_URL}rockets`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-  
-        if (oResponse.status === 200){
-          let oData = await oResponse.text();
-          setRocketList(JSON.parse(oData));
-        } else {
-          console.log("Error de conexión al servidor")
-        }
-      }
-      GetRocketList();
-
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  const handleViewLaunchs = (sRocketId) => {
+    setSelectedRocketId(sRocketId);
+    history.push("/launchs");
+  }
   
   return (<section className={"container"}>
     <Row className={"my-3"}>
@@ -72,7 +55,7 @@ function RocketList(){
                   <span className={"btn btn-sm btn-primary px-2 mx-2"}>
                     <FontAwesomeIcon icon={faInfo} />
                   </span>
-                  <span className={"btn btn-sm btn-primary"}>
+                  <span className={"btn btn-sm btn-primary"} onClick={() => handleViewLaunchs(oRocket.id)}>
                     <FontAwesomeIcon icon={faRocket} />
                   </span>
                 </td>

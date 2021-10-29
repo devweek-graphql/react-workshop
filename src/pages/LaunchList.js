@@ -1,40 +1,24 @@
-import React, {useState, useEffect} from "react";
+import React, { useContext } from "react";
+import { Col, Form, Row, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
-import { Col, Row, Table } from "react-bootstrap";
-import APP_CONFIG from "config/app.config";
+import { SystemContext } from "context/SystemContext";
 
 function LaunchList(){
-  const [aLaunchList, setLaunchList] = useState([]);
-
-  useEffect(() => {
-    try {
-      const GetLaunchList = async () => {
-        const oResponse = await fetch(`${APP_CONFIG.API_URL}launches`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-  
-        if (oResponse.status === 200){
-          let oData = await oResponse.text();
-          setLaunchList(JSON.parse(oData));
-        } else {
-          console.log("Error de conexión al servidor")
-        }
-      }
-      GetLaunchList();
-
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  const {aRocketList, aLaunchList, setSelectedRocketId} = useContext(SystemContext);
   
   return (<section className={"container"}>
     <Row className={"my-3"}>
-      <Col>
+      <Col md={8}>
         <h4>Launches list</h4>
+      </Col>
+      <Col md={4}>
+      <Form.Select size="sm" onChange={({ target: { value: sValue } }) => setSelectedRocketId(sValue)}>
+        <option value={"all"}>All</option>
+        {aRocketList && aRocketList.map(oRocket =>
+          <option key={oRocket.id} value={oRocket.id}>{oRocket.name}</option>
+        )}
+      </Form.Select>
       </Col>
     </Row>
     <Row>

@@ -6,11 +6,6 @@ import LaunchList from 'pages/LaunchList';
 
 const aRoutes = [
   {
-    path: "/",
-    exact: true,
-    component: CompanyInfo
-  },
-  {
     path: "/rockets",
     exact: true,
     component: RocketList
@@ -19,6 +14,11 @@ const aRoutes = [
     path: "/launchs",
     exact: true,
     component: LaunchList
+  },
+  {
+    path: "/",
+    exact: true,
+    component: CompanyInfo
   },
 ];
 
