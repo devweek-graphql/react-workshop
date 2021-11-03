@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo, faRocket } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row, Table } from "react-bootstrap";
@@ -52,9 +52,9 @@ function RocketList(){
                   {oRocket.active ? "Yes" : "No"}
                 </td>
                 <td className={"text-center actions-column"}>
-                  <span className={"btn btn-sm btn-primary px-2 mx-2"}>
+                  <Link className={"btn btn-sm btn-primary px-2 mx-2"} to={`/rockets/${oRocket.id}`}>
                     <FontAwesomeIcon icon={faInfo} />
-                  </span>
+                  </Link>
                   <span className={"btn btn-sm btn-primary"} onClick={() => handleViewLaunchs(oRocket.id)}>
                     <FontAwesomeIcon icon={faRocket} />
                   </span>

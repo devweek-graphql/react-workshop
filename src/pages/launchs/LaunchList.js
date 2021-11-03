@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import {Link} from "react-router-dom";
 import { Col, Form, Row, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
@@ -13,10 +14,10 @@ function LaunchList(){
         <h4>Launches list</h4>
       </Col>
       <Col md={4}>
-      <Form.Select size="sm" onChange={({ target: { value: sValue } }) => setSelectedRocketId(sValue)}>
-        <option value={"all"} selected={sSelectedRocketId === "all" ? true : false}>All</option>
+      <Form.Select size="sm" defaultValue={sSelectedRocketId} onChange={({ target: { value: sValue } }) => setSelectedRocketId(sValue)}>
+        <option value={"all"}>All</option>
         {aRocketList && aRocketList.map(oRocket =>
-          <option key={oRocket.id} value={oRocket.id} selected={sSelectedRocketId === oRocket.id ? true : false}>{oRocket.name}</option>
+          <option key={oRocket.id} value={oRocket.id}>{oRocket.name}</option>
         )}
       </Form.Select>
       </Col>
@@ -34,24 +35,24 @@ function LaunchList(){
             </tr>
           </thead>
           <tbody>
-            {aLaunchList && aLaunchList.map((oRocket, index) => {
-              return (<tr key={oRocket.id}>
+            {aLaunchList && aLaunchList.map((oLaunch, index) => {
+              return (<tr key={oLaunch.id}>
                 <td className={"text-center"}>
                   {index + 1}
                 </td>
                 <td>
-                  {oRocket.name}
+                  {oLaunch.name}
                 </td>
                 <td className={"text-center"}>
-                  {oRocket.flight_number}
+                  {oLaunch.flight_number}
                 </td>
                 <td className={"text-center"}>
-                  {oRocket.date_utc && (new Date(oRocket.date_utc)).toLocaleDateString("es-UY")}
+                  {oLaunch.date_utc && (new Date(oLaunch.date_utc)).toLocaleDateString("es-UY")}
                 </td>
                 <td className={"text-center actions-column"}>
-                  <span className={"btn btn-sm btn-primary"}>
+                  <Link className={"btn btn-sm btn-primary"} to={`/launchs/${oLaunch.id}`}>
                     <FontAwesomeIcon icon={faInfo} />
-                  </span>
+                  </Link>
                 </td>
               </tr>);
             })}

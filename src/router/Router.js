@@ -1,19 +1,41 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import CompanyInfo from 'pages/CompanyInfo';
-import RocketList from 'pages/RocketList';
-import LaunchList from 'pages/LaunchList';
+import {Rocket, RocketList, RocketDetails} from 'pages/rockets';
+import {Launch, LaunchList, LaunchDetails} from 'pages/launchs';
 
 const aRoutes = [
   {
     path: "/rockets",
-    exact: true,
-    component: RocketList
+    component: Rocket,
+    routes: [
+      {
+        path: "/rockets/:sRocketId",
+        exact: true,
+        component: RocketDetails
+      },
+      {
+        path: "/rockets",
+        exact: true,
+        component: RocketList
+      }
+    ]
   },
   {
     path: "/launchs",
-    exact: true,
-    component: LaunchList
+    component: Launch,
+    routes: [
+      {
+        path: "/launchs",
+        exact: true,
+        component: LaunchList
+      },
+      {
+        path: "/launchs/:sLaunchId",
+        exact: true,
+        component: LaunchDetails
+      }
+    ]
   },
   {
     path: "/",
