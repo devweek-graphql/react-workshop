@@ -7,11 +7,11 @@ import SystemContextProvider from 'context/SystemContext';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/spacex-react">
       <SystemContextProvider>
         <Header />
         <Container fluid>
-          <RouteConfig />
+          <RouteConfig base />
         </Container>
       </SystemContextProvider>
     </Router>

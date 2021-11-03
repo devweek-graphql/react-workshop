@@ -6,7 +6,7 @@ function Header() {
   return (
     <Navbar bg="dark" variant="dark">
       <Container className={"py-3"}>
-        <Navbar.Brand href="/">SpaceX</Navbar.Brand>
+        <Navbar.Brand>SpaceX</Navbar.Brand>
         <Nav className="me-auto">
           <NavLink to={"/"} className="nav-link" exact>
             Home
