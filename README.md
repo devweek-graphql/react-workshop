@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Project that consume spacex api in https://api.spacexdata.com/v4/
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Published on  [https://yubisel.github.io/spacex-react/](https://yubisel.github.io/spacex-react/)
 
 ## Available Scripts
 
