@@ -49,7 +49,9 @@ function LaunchList(){
                   {oRocket.date_utc && (new Date(oRocket.date_utc)).toLocaleDateString("es-UY")}
                 </td>
                 <td className={"text-center actions-column"}>
-                  <FontAwesomeIcon icon={faInfo} />
+                  <span className={"btn btn-sm btn-primary"}>
+                    <FontAwesomeIcon icon={faInfo} />
+                  </span>
                 </td>
               </tr>);
             })}
