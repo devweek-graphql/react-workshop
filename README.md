@@ -1,4 +1,4 @@
-# Project that consume spacex api in https://api.spacexdata.com/v4/
+# Project that consume spacex api
 
 Published on  [https://yubisel.github.io/spacex-react/](https://yubisel.github.io/spacex-react/)
 

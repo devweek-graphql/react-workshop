@@ -26,10 +26,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-#    - run: git config user.email "yubiselv@gmail.com"
-#    - run: git config user.name "Ing. Yubisel Vega Alvarez"
     - run: npm install
     - run: npm run build
+    - run: cp .htaccess ./build/
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
