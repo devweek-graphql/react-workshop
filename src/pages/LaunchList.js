@@ -5,7 +5,7 @@ import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import { SystemContext } from "context/SystemContext";
 
 function LaunchList(){
-  const {aRocketList, aLaunchList, setSelectedRocketId} = useContext(SystemContext);
+  const {aRocketList, aLaunchList, sSelectedRocketId, setSelectedRocketId} = useContext(SystemContext);
   
   return (<section className={"container"}>
     <Row className={"my-3"}>
@@ -14,9 +14,9 @@ function LaunchList(){
       </Col>
       <Col md={4}>
       <Form.Select size="sm" onChange={({ target: { value: sValue } }) => setSelectedRocketId(sValue)}>
-        <option value={"all"}>All</option>
+        <option value={"all"} selected={sSelectedRocketId === "all" ? true : false}>All</option>
         {aRocketList && aRocketList.map(oRocket =>
-          <option key={oRocket.id} value={oRocket.id}>{oRocket.name}</option>
+          <option key={oRocket.id} value={oRocket.id} selected={sSelectedRocketId === oRocket.id ? true : false}>{oRocket.name}</option>
         )}
       </Form.Select>
       </Col>
