@@ -1,6 +1,6 @@
 # Project that consume spacex api
 
-Published on  [https://yubisel.github.io/spacex-react/](https://yubisel.github.io/spacex-react/)
+Published on  [https://devweek-graphql.github.io/react-workshop/](https://devweek-graphql.github.io/react-workshop/)
 
 ## Available Scripts
 
