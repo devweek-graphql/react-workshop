@@ -13,7 +13,8 @@ function LaunchList(){
       <Col md={8}>
         <h4>Launches list</h4>
       </Col>
-      <Col md={4}>
+      <Col md={4} className={"d-flex align-items-center"}>
+        <Form.Label className={"me-3 mb-0"}>Rocket:</Form.Label>
       <Form.Select size="sm" defaultValue={sSelectedRocketId} onChange={({ target: { value: sValue } }) => setSelectedRocketId(sValue)}>
         <option value={"all"}>All</option>
         {aRocketList && aRocketList.map(oRocket =>

@@ -1,26 +1,9 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import CompanyInfo from 'pages/CompanyInfo';
-import {Rocket, RocketList, RocketDetails} from 'pages/rockets';
 import {Launch, LaunchList, LaunchDetails} from 'pages/launchs';
 
 const aRoutes = [
-  {
-    path: "/rockets",
-    component: Rocket,
-    routes: [
-      {
-        path: "/rockets/:sRocketId",
-        exact: true,
-        component: RocketDetails
-      },
-      {
-        path: "/rockets",
-        exact: true,
-        component: RocketList
-      }
-    ]
-  },
   {
     path: "/launchs",
     component: Launch,
