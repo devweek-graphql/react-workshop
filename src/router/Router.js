@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import CompanyInfo from 'pages/CompanyInfo';
 import {Launch, LaunchList, LaunchDetails} from 'pages/launchs';
+import Anime from 'pages/anime/Anime';
 
 const aRoutes = [
   {
@@ -19,6 +20,11 @@ const aRoutes = [
         component: LaunchDetails
       }
     ]
+  },
+  {
+    path: "/anime",
+    exact: true,
+    component: Anime
   },
   {
     path: "/",
