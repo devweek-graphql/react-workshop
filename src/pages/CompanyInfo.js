@@ -1,36 +1,23 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
+import {useQuery} from '@apollo/client';
 import { Col, ListGroup, Row } from "react-bootstrap";
-import APP_CONFIG from "../config/app.config";
+import CompanyInfoGQL from 'queries/CompanyInfo.gql';
+import Loading from "components/Loading";
+import ErrorMessage from "components/ErrorMessage";
 
 function CompanyInfo() {
-  const [oCompanyInfo, setCompanyInfo] = useState();
+  const {loading, error, data} = useQuery(CompanyInfoGQL);
   const sLabelClass = "w-25 d-inline-block text-end pe-4 fw-bold";
 
-  useEffect(() => {
-    try {
-      const GetCompanyInfo = async () => {
-        const oResponse = await fetch(`${APP_CONFIG.API_URL}company`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-  
-        if (oResponse.status === 200){
-          let oData = await oResponse.text();
-          setCompanyInfo(JSON.parse(oData));
-        } else {
-          console.log("Error de conexión al servidor");
-        }
-      }
-      GetCompanyInfo();
+  if(loading) {
+    return <Loading />;
+  }
 
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  if(error) {
+    return <ErrorMessage message={error.message}/>;
+  }
 
-  return(
+  return (
     <section className="container">
       <Row className={"my-3"}>
         <Col>
@@ -39,59 +26,58 @@ function CompanyInfo() {
       </Row>
       <Row className={"my-3"}>
         <Col>
-          {oCompanyInfo &&
-            <ListGroup>
+          {<ListGroup>
               <ListGroup.Item>
                 <label className={sLabelClass}>Name:</label>
-                {oCompanyInfo.name}
+                {data.company.name}
               </ListGroup.Item>
               <ListGroup.Item>
                 <label className={sLabelClass}>Founder:</label>
-                {oCompanyInfo.founder}
+                {data.company.founder}
               </ListGroup.Item>
               <ListGroup.Item>
                 <label className={sLabelClass}>Founded:</label>
-                {oCompanyInfo.founded}
+                {data.company.founded}
               </ListGroup.Item>
               <ListGroup.Item>
                 <label className={sLabelClass}>CEO:</label>
-                {oCompanyInfo.ceo}
+                {data.company.ceo}
               </ListGroup.Item>
               <ListGroup.Item>
                 <label className={sLabelClass}>COO:</label>
-                {oCompanyInfo.coo}
+                {data.company.coo}
               </ListGroup.Item>
               <ListGroup.Item>
                 <label className={sLabelClass}>CTO:</label>
-                {oCompanyInfo.cto}
+                {data.company.cto}
               </ListGroup.Item>
               <ListGroup.Item>
                 <label className={sLabelClass}>CTO Propulsion:</label>
-                {oCompanyInfo.cto_propulsion}
+                {data.company.cto_propulsion}
               </ListGroup.Item>
               <ListGroup.Item>
                 <label className={sLabelClass}>Employees:</label>
-                {oCompanyInfo.employees}
+                {data.company.employees}
               </ListGroup.Item>
               <ListGroup.Item>
                 <label className={sLabelClass}>Valuation:</label>
-                {oCompanyInfo.valuation}
+                {data.company.valuation}
               </ListGroup.Item>
               <ListGroup.Item className={"d-flex align-items-center"}>
                 <label className={sLabelClass}>Summary:</label>
-                <label className={"w-75 d-inline-block"}>{oCompanyInfo.summary}</label>
+                <label className={"w-75 d-inline-block"}>{data.company.summary}</label>
               </ListGroup.Item>
               <ListGroup.Item className={"d-flex align-items-center"}>
                 <label className={sLabelClass}>Headquarters:</label>
-                <label className={"w-75 d-inline-block"}>{oCompanyInfo.headquarters.address}, {oCompanyInfo.headquarters.city}, {oCompanyInfo.headquarters.state}</label>
+                <label className={"w-75 d-inline-block"}>{data.company.headquarters.address}, {data.company.headquarters.city}, {data.company.headquarters.state}</label>
               </ListGroup.Item>
               <ListGroup.Item className={"d-flex align-items-center"}>
                 <label className={sLabelClass}>Links:</label>
                 <div className={"w-25 d-inline-block"}>
-                  <label className={"d-block"}><a href={oCompanyInfo.links.website} target="_black">{oCompanyInfo.links.website}</a></label>
-                  <label className={"d-block"}><a href={oCompanyInfo.links.flickr} target="_black">{oCompanyInfo.links.flickr}</a></label>
-                  <label className={"d-block"}><a href={oCompanyInfo.links.twitter} target="_black">{oCompanyInfo.links.twitter}</a></label>
-                  <label className={"d-block"}><a href={oCompanyInfo.links.elon_twitter} target="_black">{oCompanyInfo.links.elon_twitter}</a></label>
+                  <label className={"d-block"}><a href={data.company.links.website} target="_black">{data.company.links.website}</a></label>
+                  <label className={"d-block"}><a href={data.company.links.flickr} target="_black">{data.company.links.flickr}</a></label>
+                  <label className={"d-block"}><a href={data.company.links.twitter} target="_black">{data.company.links.twitter}</a></label>
+                  <label className={"d-block"}><a href={data.company.links.elon_twitter} target="_black">{data.company.links.elon_twitter}</a></label>
                 </div>
               </ListGroup.Item>
             </ListGroup>

@@ -1,71 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useQuery } from "@apollo/client";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { Row, Col, ListGroup, Carousel } from "react-bootstrap";
-import APP_CONFIG from "config/app.config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import LaunchDetailsGQL from "queries/LaunchDetails.gql";
+import Loading from "components/Loading";
+import ErrorMessage from "components/ErrorMessage";
 
 function LaunchDetails() {
   let { sLaunchId } = useParams();
-  const [oRocket, setRocketInfo] = useState();
-  const [oLaunch, setLaunchInfo] = useState();
   const sLabelClass = "w-25 d-inline-block text-end pe-4 fw-bold";
-  const [sRocketId, setRocketId] = useState();
-
-  useEffect(() => {
-    try {
-      const GetRocketInfo = async () => {
-        const oResponse = await fetch(`${APP_CONFIG.API_URL}rockets/${sRocketId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-
-        if (oResponse.status === 200) {
-          let oData = await oResponse.text();
-          setRocketInfo(JSON.parse(oData));
-        } else {
-          console.log("Error de conexión al servidor");
-        }
-      }
-      GetRocketInfo();
-
-    } catch (error) {
-      console.log(error);
+  const {loading, error, data} = useQuery(
+    LaunchDetailsGQL,
+    {
+      variables: { sLaunchId }
     }
-  }, [sRocketId]);
+  );
 
-  useEffect(() => {
-    try {
-      const GetLaunchInfo = async () => {
-        const oResponse = await fetch(`${APP_CONFIG.API_URL}launches/${sLaunchId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
+  if(loading) {
+    return <Loading />;
+  }
 
-        if (oResponse.status === 200) {
-          let oData = await oResponse.text();
-          setLaunchInfo(JSON.parse(oData));
-        } else {
-          console.log("Error de conexión al servidor");
-        }
-      }
-      GetLaunchInfo();
-
-    } catch (error) {
-      console.log(error);
-    }
-  }, [sLaunchId]);
-
-  useEffect(() => {
-    if (oLaunch) {
-      setRocketId(oLaunch.rocket);
-    }
-  }, [oLaunch]);
+  if (error) {
+    return <ErrorMessage message={error.message} />;
+  }
 
   return (<section className={"container mb-5"}>
     <Row className={"my-3"}>
@@ -79,63 +39,63 @@ function LaunchDetails() {
     </Row>
     <Row className={"my-3"}>
       <Col>
-        {oRocket &&
+        {
           <ListGroup>
             <ListGroup.Item variant="dark">
               <h5>Rocket</h5>
             </ListGroup.Item>
             <ListGroup.Item>
               <label className={sLabelClass}>Name:</label>
-              {oRocket.name}
+              {data.launch.rocket.name}
             </ListGroup.Item>
             <ListGroup.Item>
               <label className={sLabelClass}>Type:</label>
-              {oRocket.type}
+              {data.launch.rocket.type}
             </ListGroup.Item>
             <ListGroup.Item>
               <label className={sLabelClass}>Active:</label>
-              {oRocket.active ? "Yes" : "No"}
+              {data.launch.rocket.active ? "Yes" : "No"}
             </ListGroup.Item>
             <ListGroup.Item>
               <label className={sLabelClass}>Boosters:</label>
-              {oRocket.boosters}
+              {data.launch.rocket.boosters}
             </ListGroup.Item>
             <ListGroup.Item>
               <label className={sLabelClass}>Cost per launch:</label>
-              {oRocket.cost_per_launch}
+              {data.launch.rocket.cost_per_launch}
             </ListGroup.Item>
             <ListGroup.Item>
               <label className={sLabelClass}>Success rate pct:</label>
-              {oRocket.success_rate_pct}
+              {data.launch.rocket.success_rate_pct}
             </ListGroup.Item>
             <ListGroup.Item>
               <label className={sLabelClass}>First flight:</label>
-              {oRocket.first_flight && (new Date(oRocket.first_flight)).toLocaleDateString("es-UY")}
+              {data.launch.rocket.first_flight && (new Date(data.launch.rocket.first_flight)).toLocaleDateString("es-UY")}
             </ListGroup.Item>
             <ListGroup.Item>
               <label className={sLabelClass}>Country:</label>
-              {oRocket.country}
+              {data.launch.rocket.country}
             </ListGroup.Item>
             <ListGroup.Item>
               <label className={sLabelClass}>Wikipedia:</label>
-              <a href={oRocket.wikipedia} target="_blank" rel="noreferrer">{oRocket.wikipedia}</a>
+              <a href={data.launch.rocket.wikipedia} target="_blank" rel="noreferrer">{data.launch.rocket.wikipedia}</a>
             </ListGroup.Item>
             <ListGroup.Item className={"d-flex align-items-center"}>
               <label className={sLabelClass}>Description:</label>
-              <label className={"w-75 d-inline-block"}>{oRocket.description}</label>
+              <label className={"w-75 d-inline-block"}>{data.launch.rocket.description}</label>
             </ListGroup.Item>
           </ListGroup>
         }
       </Col>
     </Row>
-    {oRocket?.flickr_images && oRocket.flickr_images.length !== 0 &&
+    {data.launch.rocket?.flickr_images && data.launch.rocket.flickr_images.length !== 0 &&
       <Row className={"mb-5"}>
         <Col>
           <Carousel
             prevIcon={<span className={"btn btn-success rounded-circle"}><FontAwesomeIcon icon={faArrowLeft} /></span>}
             nextIcon={<span className={"btn btn-success rounded-circle"}><FontAwesomeIcon icon={faArrowRight} /></span>}
           >
-            {oRocket.flickr_images.map((sImageUrl, index) => {
+            {data.launch.rocket.flickr_images.map((sImageUrl, index) => {
               return <Carousel.Item key={index}>
                 <div className={"h-100 w-100 d-flex justify-content-center align-items-center"}>
                   <img
@@ -153,49 +113,49 @@ function LaunchDetails() {
 
     <Row className={"my-3"}>
       <Col>
-        {oLaunch &&
+        {
           <ListGroup>
             <ListGroup.Item variant="dark">
               <h5>Launch</h5>
             </ListGroup.Item>
             <ListGroup.Item>
               <label className={sLabelClass}>Name:</label>
-              {oLaunch.name}
+              {data.launch.name}
             </ListGroup.Item>
             <ListGroup.Item>
               <label className={sLabelClass}>Flight number:</label>
-              {oLaunch.flight_number}
+              {data.launch.flight_number}
             </ListGroup.Item>
             <ListGroup.Item>
               <label className={sLabelClass}>Success:</label>
-              {oLaunch.success ? "Yes" : "No"}
+              {data.launch.success ? "Yes" : "No"}
             </ListGroup.Item>
             <ListGroup.Item>
               <label className={sLabelClass}>Date:</label>
-              {oLaunch.date_utc && (new Date(oLaunch.date_utc)).toLocaleDateString("es-UY")}
+              {data.launch.date_utc && (new Date(data.launch.date_utc)).toLocaleDateString("es-UY")}
             </ListGroup.Item>
-            {oLaunch?.links?.wikipedia &&
+            {data.launch?.links?.wikipedia &&
               <ListGroup.Item>
                 <label className={sLabelClass}>Wikipedia:</label>
-                <a href={oLaunch.links.wikipedia} target="_blank" rel="noreferrer">{oLaunch.links.wikipedia}</a>
+                <a href={data.launch.links.wikipedia} target="_blank" rel="noreferrer">{data.launch.links.wikipedia}</a>
               </ListGroup.Item>
             }
             <ListGroup.Item className={"d-flex align-items-center"}>
               <label className={sLabelClass}>Details:</label>
-              <label className={"w-75 d-inline-block"}>{oLaunch.details}</label>
+              <label className={"w-75 d-inline-block"}>{data.launch.details}</label>
             </ListGroup.Item>
           </ListGroup>
         }
       </Col>
     </Row>
-    {oLaunch?.links?.flickr?.original && oLaunch.links.flickr.original.length !== 0 &&
+    {data.launch?.links?.flickr?.original && data.launch.links.flickr.original.length !== 0 &&
       <Row className={"mb-5"}>
         <Col>
           <Carousel
             prevIcon={<span className={"btn btn-success rounded-circle"}><FontAwesomeIcon icon={faArrowLeft} /></span>}
             nextIcon={<span className={"btn btn-success rounded-circle"}><FontAwesomeIcon icon={faArrowRight} /></span>}
           >
-            {oLaunch.links.flickr.original.map((sImageUrl, index) => {
+            {data.launch.links.flickr.original.map((sImageUrl, index) => {
               return <Carousel.Item key={index}>
                 <div className={"h-100 w-100 d-flex justify-content-center align-items-center"}>
                   <img

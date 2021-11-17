@@ -1,66 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import {useQuery} from '@apollo/client';
 import {Link} from "react-router-dom";
 import { Col, Row, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
-import APP_CONFIG from "config/app.config";
+import LaunchListGQL from "queries/LaunchtList.gql";
+import Loading from "components/Loading";
+import ErrorMessage from "components/ErrorMessage";
 
 function LaunchList(){
-  const [aLaunchList, setLaunchList] = useState([]);
-  const [aRocketList, setRocketList] = useState([]);
+  const {loading, error, data} = useQuery(LaunchListGQL);
 
-  useEffect(() => {
-    try {
-      const GetRocketList = async () => {
-        const oResponse = await fetch(`${APP_CONFIG.API_URL}rockets`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-  
-        if (oResponse.status === 200){
-          let oData = await oResponse.text();
-          setRocketList(JSON.parse(oData));
-        } else {
-          console.log("Error de conexión al servidor");
-        }
-      }
-      GetRocketList();
-
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      const GetLaunchList = async () => {
-        const oResponse = await fetch(`${APP_CONFIG.API_URL}launches`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-  
-        if (oResponse.status === 200){
-          let oData = await oResponse.text();
-          setLaunchList(JSON.parse(oData));
-        } else {
-          console.log("Error de conexión al servidor");
-        }
-      }
-      GetLaunchList();
-
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-
-  const getRocketNameById = sRocketId => {
-    const oRocket = aRocketList.find(oRocketElement => oRocketElement.id === sRocketId);
-    return oRocket.name;
+  if(loading) {
+    return <Loading />;
   }
+  if(error) {
+    return <ErrorMessage message={error.message}/>;
+  };
 
   return (<section className={"container"}>
     <Row className={"my-3"}>
@@ -82,7 +38,7 @@ function LaunchList(){
             </tr>
           </thead>
           <tbody>
-            {aLaunchList && aLaunchList.map((oLaunch, index) => {
+            {data.launches.map((oLaunch, index) => {
               return (<tr key={oLaunch.id}>
                 <td className={"text-center"}>
                   {index + 1}
@@ -91,7 +47,7 @@ function LaunchList(){
                   {oLaunch.name}
                 </td>
                 <td>
-                  {getRocketNameById(oLaunch.rocket)}
+                  {oLaunch.rocket.name}
                 </td>
                 <td className={"text-center"}>
                   {oLaunch.flight_number}
