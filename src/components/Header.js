@@ -11,9 +11,6 @@ function Header() {
           <NavLink to={"/"} className="nav-link" exact>
             Home
           </NavLink>
-          <NavLink to={"/rockets"} className="nav-link">
-            Rockets
-          </NavLink>
           <NavLink to={"/launchs"} className="nav-link">
             Launchs
           </NavLink>

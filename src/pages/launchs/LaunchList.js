@@ -1,25 +1,71 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
-import { Col, Form, Row, Table } from "react-bootstrap";
+import { Col, Row, Table } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo } from "@fortawesome/free-solid-svg-icons";
-import { SystemContext } from "context/SystemContext";
+import APP_CONFIG from "config/app.config";
 
 function LaunchList(){
-  const {aRocketList, aLaunchList, sSelectedRocketId, setSelectedRocketId} = useContext(SystemContext);
+  const [aLaunchList, setLaunchList] = useState([]);
+  const [aRocketList, setRocketList] = useState([]);
+
+  useEffect(() => {
+    try {
+      const GetRocketList = async () => {
+        const oResponse = await fetch(`${APP_CONFIG.API_URL}rockets`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
   
+        if (oResponse.status === 200){
+          let oData = await oResponse.text();
+          setRocketList(JSON.parse(oData));
+        } else {
+          console.log("Error de conexión al servidor");
+        }
+      }
+      GetRocketList();
+
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      const GetLaunchList = async () => {
+        const oResponse = await fetch(`${APP_CONFIG.API_URL}launches`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+  
+        if (oResponse.status === 200){
+          let oData = await oResponse.text();
+          setLaunchList(JSON.parse(oData));
+        } else {
+          console.log("Error de conexión al servidor");
+        }
+      }
+      GetLaunchList();
+
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const getRocketNameById = sRocketId => {
+    const oRocket = aRocketList.find(oRocketElement => oRocketElement.id === sRocketId);
+    return oRocket.name;
+  }
+
   return (<section className={"container"}>
     <Row className={"my-3"}>
-      <Col md={8}>
+      <Col md={12}>
         <h4>Launches list</h4>
-      </Col>
-      <Col md={4}>
-      <Form.Select size="sm" defaultValue={sSelectedRocketId} onChange={({ target: { value: sValue } }) => setSelectedRocketId(sValue)}>
-        <option value={"all"}>All</option>
-        {aRocketList && aRocketList.map(oRocket =>
-          <option key={oRocket.id} value={oRocket.id}>{oRocket.name}</option>
-        )}
-      </Form.Select>
       </Col>
     </Row>
     <Row>
@@ -29,6 +75,7 @@ function LaunchList(){
             <tr>
               <th className={"text-center"}>#</th>
               <th className={"text-center"}>Name</th>
+              <th className={"text-center"}>Rocket</th>
               <th className={"text-center"}>Flight number</th>
               <th className={"text-center"}>Date</th>
               <th></th>
@@ -42,6 +89,9 @@ function LaunchList(){
                 </td>
                 <td>
                   {oLaunch.name}
+                </td>
+                <td>
+                  {getRocketNameById(oLaunch.rocket)}
                 </td>
                 <td className={"text-center"}>
                   {oLaunch.flight_number}
