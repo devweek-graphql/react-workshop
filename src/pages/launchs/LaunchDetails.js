@@ -50,7 +50,6 @@ function LaunchDetails() {
         if (oResponse.status === 200) {
           let oData = await oResponse.text();
           setLaunchInfo(JSON.parse(oData));
-
         } else {
           console.log("Error de conexión al servidor");
         }

@@ -22,11 +22,6 @@ const aRoutes = [
     ]
   },
   {
-    path: "/anime",
-    exact: true,
-    component: Anime
-  },
-  {
     path: "/",
     exact: true,
     component: CompanyInfo
