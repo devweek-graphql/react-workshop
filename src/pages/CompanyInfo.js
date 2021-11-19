@@ -1,4 +1,3 @@
-import React from "react";
 import {useQuery} from '@apollo/client';
 import { Col, ListGroup, Row } from "react-bootstrap";
 import CompanyInfoGQL from 'queries/CompanyInfo.gql';

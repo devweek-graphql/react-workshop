@@ -1,7 +1,7 @@
 import {gql} from '@apollo/client';
 
 const LaunchListGQL = gql`
-{
+query getLaunchList{
   launches {
     id
     name

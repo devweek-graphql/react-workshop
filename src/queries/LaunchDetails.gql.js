@@ -1,7 +1,7 @@
 import {gql} from '@apollo/client';
 
 const LaunchDetailsGQL = gql`
-query ($sLaunchId: ID!) {
+query getLaunchDetails($sLaunchId: ID!) {
   launch (id: $sLaunchId) {
     id
     name

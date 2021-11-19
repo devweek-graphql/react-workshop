@@ -1,7 +1,7 @@
 import {gql} from '@apollo/client';
 
 const CompanyInfoGQL = gql`
-{
+query getCompanyInfo {
   company {
     name
     founder
