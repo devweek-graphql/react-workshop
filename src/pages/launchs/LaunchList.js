@@ -6,6 +6,7 @@ import { faInfo } from "@fortawesome/free-solid-svg-icons";
 import LaunchListGQL from "queries/LaunchtList.gql";
 import Loading from "components/Loading";
 import ErrorMessage from "components/ErrorMessage";
+import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 
 function LaunchList(){
   const {loading, error, data} = useQuery(LaunchListGQL);
@@ -55,8 +56,11 @@ function LaunchList(){
                   {oLaunch.date_utc && (new Date(oLaunch.date_utc)).toLocaleDateString("es-UY")}
                 </td>
                 <td className={"text-center actions-column"}>
-                  <Link className={"btn btn-sm btn-primary"} to={`/launchs/${oLaunch.id}`}>
+                  <Link className={"btn btn-sm btn-primary me-2"} to={`/launchs/${oLaunch.id}`}>
                     <FontAwesomeIcon icon={faInfo} />
+                  </Link>
+                  <Link className={"btn btn-sm btn-primary"} to={`/launchs/comments/${oLaunch.id}`}>
+                    <FontAwesomeIcon icon={faCommentDots} />
                   </Link>
                 </td>
               </tr>);

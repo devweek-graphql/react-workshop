@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import CompanyInfo from 'pages/CompanyInfo';
-import {Launch, LaunchList, LaunchDetails} from 'pages/launchs';
+import {Launch, LaunchList, LaunchDetails, LaunchComments} from 'pages/launchs';
 
 const aRoutes = [
   {
@@ -17,6 +17,11 @@ const aRoutes = [
         path: "/launchs/:sLaunchId",
         exact: true,
         component: LaunchDetails
+      },
+      {
+        path: "/launchs/comments/:sLaunchId",
+        exact: true,
+        component: LaunchComments
       }
     ]
   },
